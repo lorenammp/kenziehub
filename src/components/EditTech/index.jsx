@@ -27,9 +27,11 @@ function EditTech(props) {
       <ModalTitle handleClose={handleCloseEdit}>Editar Tecnologia</ModalTitle>
       <DialogContent sx={{ bgcolor: "#212529" }}>
         <EditForm
+          handleCloseEdit={handleCloseEdit}
           name={props.name}
           status={props.status}
           id={props.id}
+          getUserData={props.getUserData}
         ></EditForm>
       </DialogContent>
     </Dialog>

@@ -43,6 +43,8 @@ function EditForm(props) {
       })
       .then((response) => {
         notifySuccessEdit();
+        props.handleCloseEdit();
+        props.getUserData();
       })
       .catch((err) => console.log(err));
   }
@@ -54,8 +56,10 @@ function EditForm(props) {
       })
       .then((response) => {
         notifySuccessDelete();
+        props.handleCloseEdit();
+        props.getUserData();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => err);
   }
 
   return (

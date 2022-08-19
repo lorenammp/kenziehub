@@ -50,8 +50,8 @@ function AddForm(props) {
         notifySuccess();
         setStatus("");
         textInput.current.value = "";
-        props.handleClose();
         reset({ title: "", status: "" });
+        props.getUserData();
       })
       .catch((err) => {
         if (err.response.data.message === errorMsg) {

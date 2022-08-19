@@ -26,6 +26,7 @@ function SingleCard(props) {
         status={props.status}
         openEdit={openEdit}
         setOpenEdit={setOpenEdit}
+        getUserData={props.getUserData}
       ></EditTech>
     </Card>
   );

@@ -48,7 +48,7 @@ function Dashboard(props) {
 
   useEffect(() => {
     getUserData();
-  }, [tech]);
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -92,6 +92,7 @@ function Dashboard(props) {
           userData={props.user.user?.data}
           setOpen={setOpen}
           open={open}
+          getUserData={getUserData}
         ></AddTech>
       </AddMore>
 
@@ -105,6 +106,7 @@ function Dashboard(props) {
               id={tech.id}
               name={tech.title}
               status={tech.status}
+              getUserData={getUserData}
             ></SingleCard>
           ))}
         </CardList>
