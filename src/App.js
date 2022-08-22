@@ -6,6 +6,11 @@ import MainRoutes from "./routes";
 import GlobalStyle from "./styles/global";
 
 import { ToastContainer } from "react-toastify";
+import { LoginProvider } from "./providers/userLogin";
+import { ToastProvider } from "./providers/toastAlerts";
+import { RegisterProvider } from "./providers/userRegister";
+import { TechsProvider } from "./providers/userTechs";
+import { TechEditProvider } from "./providers/techEdit";
 
 const darkTheme = createTheme({
   palette: {
@@ -28,8 +33,18 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <div className="container">
         <main>
-          <GlobalStyle />
-          <MainRoutes />
+          <ToastProvider>
+            <LoginProvider>
+              <RegisterProvider>
+                <TechsProvider>
+                  <TechEditProvider>
+                    <GlobalStyle />
+                    <MainRoutes />
+                  </TechEditProvider>
+                </TechsProvider>
+              </RegisterProvider>
+            </LoginProvider>
+          </ToastProvider>
         </main>
       </div>
       <ToastContainer
@@ -49,3 +64,4 @@ function App() {
 }
 
 export default App;
+//Abcd123$

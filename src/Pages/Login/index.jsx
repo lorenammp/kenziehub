@@ -9,9 +9,7 @@ import {
   ButtonSecondary,
 } from "./styles";
 
-import axios from "axios";
-
-import { Redirect, useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -20,10 +18,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import TextField from "@mui/material/TextField";
 import Header from "../../components/Header";
 
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useContext } from "react";
+import { LoginContext } from "../../providers/userLogin";
 
 function Login(props) {
+  const { handleLogin } = useContext(LoginContext);
+
+  const navigate = useNavigate();
+
   const schema = yup.object().shape({
     email: yup.string().required("Digite um e-mail válido!"),
     password: yup.string().required("Digite uma senha!"),
@@ -35,35 +37,12 @@ function Login(props) {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const history = useHistory();
-
-  const notifySuccess = () => toast.success("Login efetuado com sucesso!");
-  const notifyError = () => toast.error("Verifique os dados inseridos");
-
-  function handleLogin(data) {
-    axios
-      .post("https://kenziehub.herokuapp.com/sessions", data)
-      .then((response) => {
-        notifySuccess();
-        const token = response.data.token;
-        const user = response.data;
-
-        localStorage.setItem("@kenziehub:token", JSON.stringify(token));
-        localStorage.setItem("@kenziehub:user", JSON.stringify(user));
-        props.setAuthenticated(true);
-        props.setUser(user);
-
-        return history.push("/dashboard");
-      })
-      .catch((err) => notifyError());
-  }
-
   function handleChangePage() {
-    return history.push("/register");
+    navigate("/register");
   }
 
   if (props.authenticated) {
-    return <Redirect to="/dashboard" />;
+    navigate("/dashboard");
   }
 
   return (

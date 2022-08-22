@@ -12,9 +12,9 @@ import {
 
 import axios from "axios";
 
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -26,11 +26,13 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { RegisterContext } from "../../providers/userRegister";
 
 function Register() {
+  const { handleRegister } = useContext(RegisterContext);
   const [module, setModule] = useState("");
+
+  const navigate = useNavigate();
 
   const schema = yup.object().shape({
     name: yup
@@ -63,38 +65,8 @@ function Register() {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const notifySuccess = () => toast.success("Registro efetuado com sucesso!");
-  const notifyError1 = () => toast.error("E-mail já cadastrado");
-  const notifyError2 = () => toast.error("Verifique os dados inseridos");
-
-  function handleRegister(data) {
-    const getUser = {
-      email: data.email,
-      password: data.password,
-      name: data.name,
-      bio: data.bio,
-      contact: data.contact,
-      course_module: data.course_module,
-    };
-    console.log(getUser);
-    axios
-      .post("https://kenziehub.herokuapp.com/users", getUser)
-      .then((response) => {
-        notifySuccess();
-        return history.push("/");
-      })
-      .catch((err) => {
-        if (err.response.data.message === "Email already exists") {
-          notifyError1();
-        } else {
-          notifyError2();
-        }
-      });
-  }
-
-  const history = useHistory();
   function handleChangePage() {
-    return history.push("/");
+    navigate("/");
   }
 
   return (

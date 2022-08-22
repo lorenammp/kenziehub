@@ -2,16 +2,12 @@ import { Card, CardTitle, CardStatus, EditBtn } from "./styles";
 
 import { FaEdit } from "react-icons/fa";
 
-import { useState } from "react";
-
 import EditTech from "../EditTech";
+import { useContext } from "react";
+import { TechEditContext } from "../../providers/techEdit";
 
 function SingleCard(props) {
-  const [openEdit, setOpenEdit] = useState(false);
-
-  const handleClickOpenEdit = () => {
-    setOpenEdit(true);
-  };
+  const { handleClickOpenEdit } = useContext(TechEditContext);
   return (
     <Card>
       <CardTitle>{props.name}</CardTitle>
@@ -24,8 +20,6 @@ function SingleCard(props) {
         name={props.name}
         id={props.id}
         status={props.status}
-        openEdit={openEdit}
-        setOpenEdit={setOpenEdit}
         getUserData={props.getUserData}
       ></EditTech>
     </Card>

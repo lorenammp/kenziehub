@@ -16,8 +16,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useContext } from "react";
+import { TechEditContext } from "../../providers/techEdit";
 
 function EditForm(props) {
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   errors,
+  //   setTechId,
+  //   handleEdit,
+  //   handleDelete,
+  // } = useContext(TechEditContext);
+
   const [status, setStatus] = useState(props.status);
   const [name, setName] = useState(props.name);
 
@@ -59,7 +70,7 @@ function EditForm(props) {
         props.handleCloseEdit();
         props.getUserData();
       })
-      .catch((err) => err);
+      .catch((err) => console.log(err));
   }
 
   return (

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Switch, Route } from "react-router";
+import { Routes, Route } from "react-router";
 import Dashboard from "../Pages/Dashboard";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
@@ -18,26 +18,34 @@ function MainRoutes() {
   }, [authenticated]);
 
   return (
-    <Switch>
-      <Route exact path="/">
-        <Login
-          authenticated={authenticated}
-          setAuthenticated={setAuthenticated}
-          setUser={setUser}
+    <>
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={
+            <Login
+              authenticated={authenticated}
+              setAuthenticated={setAuthenticated}
+              setUser={setUser}
+            />
+          }
         />
-      </Route>
-      <Route exact path="/register">
-        <Register />
-      </Route>
-      <Route exact path="/dashboard">
-        <Dashboard
-          authenticated={authenticated}
-          setAuthenticated={setAuthenticated}
-          user={user}
-          setUser={setUser}
+        <Route exact path="/register" element={<Register />} />
+        <Route
+          exact
+          path="/dashboard"
+          element={
+            <Dashboard
+              authenticated={authenticated}
+              setAuthenticated={setAuthenticated}
+              user={user}
+              setUser={setUser}
+            />
+          }
         />
-      </Route>
-    </Switch>
+      </Routes>
+    </>
   );
 }
 

@@ -11,11 +11,9 @@ import {
   TitleH4,
 } from "./styles";
 
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-import { Redirect, useHistory } from "react-router-dom";
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import Divider from "@mui/material/Divider";
 
@@ -23,30 +21,20 @@ import Header from "../../components/Header";
 import SingleCard from "../../components/SingleCard";
 import AddTech from "../../components/AddTech";
 import EmptyList from "../../components/EmptyList";
+import { TechsContext } from "../../providers/userTechs";
 
 function Dashboard(props) {
-  const history = useHistory();
+  const { tech, user, getUserData } = useContext(TechsContext);
+
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
-  const [tech, setTech] = useState([]);
 
-  const userInfo = JSON.parse(localStorage.getItem("@kenziehub:user"));
   useEffect(() => {
-    if (userInfo) {
-      return props.setUser(userInfo);
+    const token = JSON.parse(localStorage.getItem("@kenziehub:token"));
+    if (!token) {
+      navigate("/");
     }
-  }, []);
-
-  function getUserData() {
-    axios
-      .get(`https://kenziehub.herokuapp.com/users/${userInfo.user.id}`)
-      .then((response) => {
-        setTech(response.data.techs);
-      })
-      .catch((err) => console.log(err));
-  }
-
-  useEffect(() => {
     getUserData();
   }, []);
 
@@ -56,12 +44,7 @@ function Dashboard(props) {
 
   function handleChangePage() {
     localStorage.clear();
-    props.setAuthenticated(false);
-    return history.push("/");
-  }
-
-  if (!props.authenticated) {
-    return <Redirect to="/" />;
+    navigate("/");
   }
 
   return (
@@ -76,9 +59,9 @@ function Dashboard(props) {
 
       <Divider />
       <GreetingText>
-        <TitleH2>Olá, {props.user.user?.name}</TitleH2>
+        <TitleH2>Olá, {user?.name}</TitleH2>
 
-        <TitleH4>{props.user.user?.course_module}</TitleH4>
+        <TitleH4>{user?.course_module}</TitleH4>
       </GreetingText>
 
       <Divider />
@@ -88,12 +71,7 @@ function Dashboard(props) {
 
         <AddBtn onClick={handleClickOpen}>+</AddBtn>
 
-        <AddTech
-          userData={props.user.user?.data}
-          setOpen={setOpen}
-          open={open}
-          getUserData={getUserData}
-        ></AddTech>
+        <AddTech setOpen={setOpen} open={open}></AddTech>
       </AddMore>
 
       {tech.length === 0 ? (

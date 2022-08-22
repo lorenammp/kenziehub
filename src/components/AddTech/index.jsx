@@ -26,11 +26,7 @@ function AddTech(props) {
     >
       <ModalTitle handleClose={handleClose}>Cadastrar Tecnologia</ModalTitle>
       <DialogContent sx={{ bgcolor: "#212529" }}>
-        <AddForm
-          getUserData={props.getUserData}
-          handleClose={handleClose}
-          userData={props.userData}
-        ></AddForm>
+        <AddForm></AddForm>
       </DialogContent>
     </Dialog>
   );
